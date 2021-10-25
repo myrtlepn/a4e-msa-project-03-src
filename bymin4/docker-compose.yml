@@ -1,7 +1,7 @@
 version: '3'
 
 networks:
-  edu:
+  inner_edu:
     external: true
 
 services:
@@ -9,13 +9,13 @@ services:
     ports:
       - "18888:8888"
     networks:
-      - edu
+      - inner_edu
     image: config-server:latest
   service-discovery:
     ports:
       - "18761:8761"
     networks:
-      - edu
+      - inner_edu
     image: service-discovery:latest
     restart: on-failure
     depends_on:
@@ -24,7 +24,7 @@ services:
     ports:
       - "18080:8080"
     networks:
-      - edu
+      - inner_edu
     image: gateway:latest
     restart: on-failure
     depends_on:
@@ -34,7 +34,7 @@ services:
     expose:
       - "3306"
     networks:
-      - edu
+      - inner_edu
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: coupang
@@ -47,7 +47,7 @@ services:
     expose:
       - "3306"
     networks:
-      - edu
+      - inner_edu
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: coupang
@@ -60,7 +60,7 @@ services:
     expose:
       - "10001"
     networks:
-      - edu
+      - inner_edu
     image: product-service:latest
     restart: on-failure
     depends_on:
@@ -71,7 +71,7 @@ services:
     expose:
       - "10001"
     networks:
-      - edu
+      - inner_edu
     image: review-service:latest
     restart: on-failure
     depends_on:
