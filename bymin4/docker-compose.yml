@@ -1,20 +1,20 @@
 version: '3'
 
 networks:
-  edu:
-    driver: bridge
+  jenkins:
+    external: true
 services:
   config-server:
     ports:
       - "18888:8888"
     networks:
-      - edu
+      - jenkins
     image: local-registry:5000/bymin4/config-server:latest
   service-discovery:
     ports:
       - "18761:8761"
     networks:
-      - edu
+      - jenkins
     image: local-registry:5000/bymin4/service-discovery:latest
     restart: on-failure
     depends_on:
@@ -23,7 +23,7 @@ services:
     ports:
       - "18080:8080"
     networks:
-      - edu
+      - jenkins
     image: local-registry:5000/bymin4/gateway:latest
     restart: on-failure
     depends_on:
@@ -33,7 +33,7 @@ services:
     expose:
       - "3306"
     networks:
-      - edu
+      - jenkins
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: coupang
@@ -46,7 +46,7 @@ services:
     expose:
       - "3306"
     networks:
-      - edu
+      - jenkins
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: coupang
@@ -59,7 +59,7 @@ services:
     expose:
       - "10001"
     networks:
-      - edu
+      - jenkins
     image: local-registry:5000/bymin4/product-service:latest
     restart: on-failure
     depends_on:
@@ -70,7 +70,7 @@ services:
     expose:
       - "10001"
     networks:
-      - edu
+      - jenkins
     image: local-registry:5000/bymin4/review-service:latest
     restart: on-failure
     depends_on:
