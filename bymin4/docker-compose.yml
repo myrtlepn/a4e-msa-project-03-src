@@ -2,8 +2,7 @@ version: '3'
 
 networks:
   edu:
-    external: true
-
+    driver: bridge
 services:
   config-server:
     ports:
