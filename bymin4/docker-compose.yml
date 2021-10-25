@@ -9,13 +9,13 @@ services:
       - "18888:8888"
     networks:
       - edu
-    image: config-server:latest
+    image: local-registry:5000/bymin4/config-server:latest
   service-discovery:
     ports:
       - "18761:8761"
     networks:
       - edu
-    image: service-discovery:latest
+    image: local-registry:5000/bymin4/service-discovery:latest
     restart: on-failure
     depends_on:
       - config-server
@@ -24,7 +24,7 @@ services:
       - "18080:8080"
     networks:
       - edu
-    image: gateway:latest
+    image: local-registry:5000/bymin4/gateway:latest
     restart: on-failure
     depends_on:
       - config-server
@@ -60,7 +60,7 @@ services:
       - "10001"
     networks:
       - edu
-    image: product-service:latest
+    image: local-registry:5000/bymin4/product-service:latest
     restart: on-failure
     depends_on:
       - config-server
@@ -71,7 +71,7 @@ services:
       - "10001"
     networks:
       - edu
-    image: review-service:latest
+    image: local-registry:5000/bymin4/review-service:latest
     restart: on-failure
     depends_on:
       - config-server
