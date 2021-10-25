@@ -1,0 +1,80 @@
+version: '3'
+
+networks:
+  edu:
+    external: true
+
+services:
+  config-server:
+    ports:
+      - "18888:8888"
+    networks:
+      - edu
+    image: config-server:latest
+  service-discovery:
+    ports:
+      - "18761:8761"
+    networks:
+      - edu
+    image: service-discovery:latest
+    restart: on-failure
+    depends_on:
+      - config-server
+  gateway:
+    ports:
+      - "18080:8080"
+    networks:
+      - edu
+    image: gateway:latest
+    restart: on-failure
+    depends_on:
+      - config-server
+      - service-discovery
+  product_db:
+    expose:
+      - "3306"
+    networks:
+      - edu
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: coupang
+      MYSQL_PASSWORD: coupang
+      MYSQL_DATABASE: product
+    volumes:
+    - ./vol/product_db:/var/lib/mysql
+    image: mysql:8.0
+  review_db:
+    expose:
+      - "3306"
+    networks:
+      - edu
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: coupang
+      MYSQL_PASSWORD: coupang
+      MYSQL_DATABASE: review
+    volumes:
+      - ./vol/review_db:/var/lib/mysql
+    image: mysql:8.0
+  product-service:
+    expose:
+      - "10001"
+    networks:
+      - edu
+    image: product-service:latest
+    restart: on-failure
+    depends_on:
+      - config-server
+      - service-discovery
+      - product_db
+  review-service:
+    expose:
+      - "10001"
+    networks:
+      - edu
+    image: review-service:latest
+    restart: on-failure
+    depends_on:
+      - config-server
+      - service-discovery
+      - review_db

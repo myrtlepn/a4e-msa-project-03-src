@@ -1,0 +1,16 @@
+pluginManagement {
+	repositories {
+		maven { url 'https://repo.spring.io/release' }
+		mavenCentral()
+		gradlePluginPortal()
+	}
+}
+
+rootProject.name = 'bymin4'
+
+include("product-service")
+include("config-server")
+include("gateway")
+include("product-review-domains")
+include("review-service")
+include("service-discovery")

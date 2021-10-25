@@ -1,0 +1,24 @@
+server:
+  port: 10001
+spring:
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:review_db}:3306/review?serverTimezone=UTC
+    username: coupang
+    password: coupang
+  jpa:
+    hibernate.ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://service-discovery:8761/eureka/
+#  instance:
+#    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+
+
+#  docker run --name review_db --network edu -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=coupang -e MYSQL_PASSWORD=coupang -e MYSQL_DATABASE=review -p 13307:3306 -d mysql:8.0
